@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+git remote shw<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
   ~
@@ -21,7 +21,11 @@
     <parent>
         <groupId>org.wso2.carbon.identity.framework</groupId>
         <artifactId>identity-notification-mgt-feature</artifactId>
+
         <version>5.14.11-SNAPSHOT</version>
+=======
+        <version>5.14.10-SNAPSHOT</version>
+>>>>>>> Stashed changes
         <relativePath>../pom.xml</relativePath>
     </parent>
 

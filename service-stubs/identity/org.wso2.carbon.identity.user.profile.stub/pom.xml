@@ -21,7 +21,11 @@
     <parent>
         <groupId>org.wso2.carbon.identity.framework</groupId>
         <artifactId>carbon-service-stubs</artifactId>
+<<<<<<< Updated upstream
         <version>5.14.11-SNAPSHOT</version>
+=======
+        <version>5.14.10-SNAPSHOT</version>
+>>>>>>> Stashed changes
         <relativePath>../pom.xml</relativePath>
     </parent>
 
