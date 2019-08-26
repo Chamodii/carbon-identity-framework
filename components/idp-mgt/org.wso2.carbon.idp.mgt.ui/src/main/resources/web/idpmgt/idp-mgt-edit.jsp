@@ -4707,8 +4707,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="leftCol-med labelField"><fmt:message key='logout.endpoint'/>:<span
-                                        class="required">*</span></td>
+                                <td class="leftCol-med labelField"><fmt:message key='logout.endpoint'/>
                                 <td>
                                     <input id="logoutUrlOidc" name="logoutUrlOidc" type="text"
                                            value=<%=Encode.forHtmlAttribute(logoutUrlOIDC)%>>
@@ -5955,3 +5954,4 @@
     <script type="text/javascript" src="js/idp_mgt_edit.js"></script>
 
 </fmt:bundle>
+
