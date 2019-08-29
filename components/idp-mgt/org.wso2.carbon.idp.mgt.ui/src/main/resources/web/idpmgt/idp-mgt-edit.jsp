@@ -130,6 +130,7 @@
     String tokenUrl = null;
     String callBackUrl = null;
     String userInfoEndpoint = null;
+    String logoutUrlOIDC = null;
     boolean isOIDCUserIdInClaims = false;
     boolean isPassiveSTSEnabled = false;
     boolean isPassiveSTSDefault = false;
@@ -446,6 +447,11 @@
                     if (userInfoEndpointProp != null) {
                         userInfoEndpoint = userInfoEndpointProp.getValue();
                     }
+                     Property logoutUrlProp = IdPManagementUIUtil.getProperty(fedAuthnConfig.getProperties(),
+                            IdentityApplicationConstants.Authenticator.OIDC.OIDC_LOGOUT_URL);
+                    if (logoutUrlProp != null) {
+                        logoutUrlOIDC = logoutUrlProp.getValue();
+                    }
 
                     Property clientIdProp = IdPManagementUIUtil.getProperty(fedAuthnConfig.getProperties(),
                             IdentityApplicationConstants.Authenticator.OIDC.CLIENT_ID);
@@ -474,7 +480,8 @@
                         isOIDCBasicAuthEnabled = Boolean.parseBoolean(basicAuthEnabledProp.getValue());
                     }
 
-                } else if (fedAuthnConfig.getDisplayName().equals(IdentityApplicationConstants.Authenticator.SAML2SSO.NAME)) {
+                }
+                else if (fedAuthnConfig.getDisplayName().equals(IdentityApplicationConstants.Authenticator.SAML2SSO.NAME)) {
                     isSamlssoAuthenticatorActive = true;
                     allFedAuthConfigs.remove(fedAuthnConfig.getDisplayName());
                     isSAML2SSOEnabled = fedAuthnConfig.getEnabled();
@@ -656,7 +663,8 @@
                     if (queryParamProp != null) {
                         samlQueryParam = queryParamProp.getValue();
                     }
-                } else {
+                }
+                else {
                     FederatedAuthenticatorConfig customConfig = allFedAuthConfigs.get(fedAuthnConfig.getName());
                     if (customConfig != null) {
                         Property[] properties = fedAuthnConfig.getProperties();
@@ -1146,6 +1154,10 @@
 
     if (StringUtils.isBlank(userInfoEndpoint)) {
         userInfoEndpoint = StringUtils.EMPTY;
+    }
+    
+    if (StringUtils.isBlank(logoutUrlOIDC)) {
+        logoutUrlOIDC = StringUtils.EMPTY;
     }
 
     String oidcBasicAuthEnabledChecked = "";
@@ -4688,6 +4700,7 @@
                                     </div>
                                 </td>
                             </tr>
+                           
                             <tr>
                                 <td class="leftCol-med labelField"><fmt:message key='callbackurl'/>
                                 <td>
@@ -4708,6 +4721,18 @@
 
                                     <div class="sectionHelp">
                                         <fmt:message key='userInfoEndpoint.help'/>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td class="leftCol-med labelField"><fmt:message key='logout.endpoint'/>
+                                <td>
+                                    <input id="logoutUrlOIDC" name="logoutUrlOIDC" type="text"
+                                           value=<%=Encode.forHtmlAttribute(logoutUrlOIDC)%>>
+
+                                    <div class="sectionHelp">
+                                        <fmt:message key='logout.endpoint.help'/>
                                     </div>
                                 </td>
                             </tr>
