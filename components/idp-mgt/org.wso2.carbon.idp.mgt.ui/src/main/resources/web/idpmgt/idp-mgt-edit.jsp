@@ -128,6 +128,7 @@
     String clientSecret = null;
     String authzUrl = null;
     String tokenUrl = null;
+    String logoutUrlOIDC = null;
     String callBackUrl = null;
     String userInfoEndpoint = null;
     boolean isOIDCUserIdInClaims = false;
@@ -445,6 +446,11 @@
                             IdentityApplicationConstants.Authenticator.OIDC.USER_INFO_URL);
                     if (userInfoEndpointProp != null) {
                         userInfoEndpoint = userInfoEndpointProp.getValue();
+                    }
+                    Property logoutUrlProp = IdPManagementUIUtil.getProperty(fedAuthnConfig.getProperties(),
+                            IdentityApplicationConstants.Authenticator.OIDC.OIDC_LOGOUT_URL);
+                    if (logoutUrlProp != null) {
+                        logoutUrlOIDC = logoutUrlProp.getValue();
                     }
 
                     Property clientIdProp = IdPManagementUIUtil.getProperty(fedAuthnConfig.getProperties(),
@@ -1139,7 +1145,6 @@
     if (StringUtils.isBlank(tokenUrl)) {
         tokenUrl = StringUtils.EMPTY;
     }
-
     if (StringUtils.isBlank(callBackUrl)) {
         callBackUrl = IdentityUtil.getServerURL(IdentityApplicationConstants.COMMONAUTH, true, true);
     }
@@ -1147,6 +1152,10 @@
     if (StringUtils.isBlank(userInfoEndpoint)) {
         userInfoEndpoint = StringUtils.EMPTY;
     }
+    if (StringUtils.isBlank(logoutUrlOIDC)) {
+        logoutUrlOIDC = StringUtils.EMPTY;
+    }
+
 
     String oidcBasicAuthEnabledChecked = "";
     if (isOIDCBasicAuthEnabled) {
@@ -3303,7 +3312,7 @@
                                 </div>
 
                                     <% if (ArrayUtils.isNotEmpty(certDataArr)) { %>
-                                
+
                                 <div class="publicCertDiv">
                                     <div style="clear:both"></div>
                                     <table class="styledLeft" id="certTableData">
@@ -4708,6 +4717,17 @@
 
                                     <div class="sectionHelp">
                                         <fmt:message key='userInfoEndpoint.help'/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="leftCol-med labelField"><fmt:message key='logout.endpoint'/>
+                                <td>
+                                    <input id="logoutUrlOIDC" name="logoutUrlOIDC" type="text"
+                                           value=<%=Encode.forHtmlAttribute(logoutUrlOIDC)%>>
+
+                                    <div class="sectionHelp">
+                                        <fmt:message key='logout.endpoint.help'/>
                                     </div>
                                 </td>
                             </tr>
