@@ -29,6 +29,9 @@ import org.wso2.carbon.identity.application.authentication.framework.util.Framew
 import org.wso2.carbon.identity.base.IdentityRuntimeException;
 import org.wso2.carbon.identity.core.bean.context.MessageContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,6 +46,8 @@ import java.util.Map;
 public class AuthenticationContext extends MessageContext implements Serializable {
 
     private static final long serialVersionUID = 6438291349985653402L;
+
+    private static final Log log = LogFactory.getLog(AuthenticationContext.class);
 
     private String contextIdentifier;
     private String sessionIdentifier;
@@ -102,6 +107,7 @@ public class AuthenticationContext extends MessageContext implements Serializabl
      * AuthenticatorStateInfoDTO and set all the required state info in it.
      */
     private AuthenticatorStateInfo stateInfo;
+    private Map<String, AuthenticatorStateInfo> authenticatorStateInfoMap = new HashMap<>();
 
     private List<String> executedPostAuthHandlers = new ArrayList<>();
 
@@ -248,8 +254,32 @@ public class AuthenticationContext extends MessageContext implements Serializabl
         return stateInfo;
     }
 
+    public AuthenticatorStateInfo getStateInfo(String authenticatorName) {
+
+        if(authenticatorStateInfoMap.isEmpty()){
+            log.info("getting stateInfoOIDC form Authentication Context");
+            return stateInfo;
+        }
+        else {
+            return authenticatorStateInfoMap.get(authenticatorName);
+        }
+    }
+
+    public Map<String, AuthenticatorStateInfo> getAuthenticatorStateInfoMap() {
+        return authenticatorStateInfoMap;
+    }
+
+    public void setAuthenticatorStateInfoMap(Map<String, AuthenticatorStateInfo> authenticatorStateInfoMap) {
+        this.authenticatorStateInfoMap = authenticatorStateInfoMap;
+    }
+
     public void setStateInfo(AuthenticatorStateInfo stateInfo) {
         this.stateInfo = stateInfo;
+    }
+
+    public void setStateInfo(String authenticatorName, AuthenticatorStateInfo stateInfo) {
+
+        authenticatorStateInfoMap.put(authenticatorName, stateInfo);
     }
 
     public int getRetryCount() {
